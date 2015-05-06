@@ -1,41 +1,21 @@
 \section{Introduction}
-Ensembles of polymers are grown using Python. By assuming the polymers are situated in a dilute solution, polymer-polymer self-interactions will prevail. This means that for reliable data of the behaviour of the polymers, creating an ensemble of polymers with only self-interactions will be sufficient. 
+The (non-relativistic) Schr\"{o}dinger equation for the wavefunction $\Psi(x,t)$ of a particle in a time-dependent scalar potential $V(x,t)$ reads 
 
-The polymers are modelled as consisting of a chain of ``beads'', where the beads are groups of atoms. The distance between subsequent beads is fixed\footnote{It is possible to set the distance between subsequent beads as variable, where the corresponding energy can be modelled by a harmonic potential. Assuming that the strength of the harmonic potential is sufficiently high, this case reduces to a fixed distance between beads.}. The interaction between the beads is modelled by a Lennard-Jones (LJ) potential (Eq. \ref{eq:lj}), which represents a Van der Waals attraction at larger distances and repulsion at smaller distances, and a bending energy (Eq. \ref{eq:bending_energy}), which simulates the semi-flexibility of polymers. The LJ potential energy is given by 
+\[
+i\hbar \frac{\partial}{\partial t}\Psi(x,t) = \left[-\frac{\hbar^2}{2m}\nabla^2+\hat{V(x,t)}\right]\Psi(x,t),
+\]
 
-\begin{equation}\label{eq:lj}
-   E_{LJ} = 4\epsilon \left[ \left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6} \right],
-\end{equation} where $\epsilon$ is the depth of the potential well, $\sigma$ is the finite distance where the potential is zero and $r$ is the distance between two particles. The parameters chosen for the LJ potential are $\epsilon/k_b=0.25$, with $k_B$ the Boltzmann constant, and $\sigma=0.8$ \cite{jmt}. The bending energy is given by
-\begin{equation}\label{eq:bending_energy}
-    E_{b} = \epsilon_b(1-\cos{\theta}),
-\end{equation} where $\epsilon_b\geq 0$ is the bending energy strength and $\theta$ is the angle between the new and preceding bead \cite{hsu2011review}.
+where $\hbar$ is the quantum of action divided by $2\pi$, $m$ the mass of the particle and $\Psi(x,t)$ the wavefunction.
+Rescaling the units such that $\hbar = 2m = 1$ gives
 
-\subsection{Markov chain}
-For a canonical ensemble the probability of a given state $\alpha$ is proportional to the Boltzmann weight $W_\alpha$, $P(\alpha) \propto e^{-\beta E(\alpha)}$, where the proportionality constant (the inverse of the partition function) is fixed by the normalization constraint.  Here $\beta=1/\left(k_B T\right)$, where $T$ the temperature and $E(\alpha)$ the energy of a state $\alpha$. For polymers, it is natural to generate configurations bead by bead. The phase space can be sampled randomly, i.e. configurations are generated randomly where the only constraints are the amount of beads and the distance between subsequent beads is fixed.
-In the canonical ensemble the thermodynamical average of a quantity $A$ is given by
-\begin{gather}
-	\langle A \rangle = \sum P_\alpha A_{\alpha} = \frac{\sum W_\alpha A_{\alpha}}{\sum W_{\alpha}},
-\end{gather}
-where the sum is over the whole phase space. If the phase space is sampled $K$ times, then
+\begin{gather*}
+i \frac{\partial}{\partial t}\Psi = \hat{H}(x,t)\Psi\\
+\hat{H} = -\nabla^2+\hat{V},
+\end{gather*}
 
-\begin{gather}
-	\langle \tilde{A} \rangle_{K} = \frac{\sum_{n=1}^K W_n A_n};{\sum_{n=1}^K W_n},\\
-	\langle A \rangle = \lim_{K\rightarrow \infty}\langle \tilde{A} \rangle_{K}.
-\end{gather}
+where $\hat{H}$ is called the Hamiltonian of the system.
 
-For the weights
-\begin{equation}
-    W_n = \prod_{l=2}^L w_j^{(l)} = \prod_{l=2}^Le^{-\beta e_j} = e^{-\beta E_{total}},
-\end{equation} where $n$ denotes the polymer, $w_j$ the Boltzmann weight for a bead $j$ and $E_{total}$ is the total energy of the polymer. Each $W_n$ is thus calculated and stored for each polymer. It is easy to see that sampling the phase space for states with low energy will speed up the convergence of $\langle \tilde{A} \rangle_{K}$ to $	\langle A \rangle$. Note that $l=2$ is the third polymer, since the simulation starts counting at $0$.
+Numerical results can be verified by comparing them with analytical solutions for specific potentials. Well-known examples of potentials with analytical solutions are the infinite square well, barrier potential and harmonic oscillator potential.
 
-Since the polymer is not explicitly self-avoiding, the possible new configurations when a new bead is added depends only on the last bead that was placed. This method thus has the Markov property. However, sampling the phase space completely randomly is, as can be expected incredibly inefficient, mainly due to the high probability of beads being placed close to each other where the hardcore repulsion causes the weight of almost all the generated polymers to become negligible. As outlined below, the Rosenbluth and Rosenbluth (RR) algorithm \cite{rosenbluth1955monte} follows a Markov Chain Monte Carlo method, where a bias is implemented to sample the phase space for lower energy states.
+The infinite square well finds it physical realisation in studying the behaviour of electrons confined in a metal. The barrier potential can be used as a model for understanding quantum tunneling effects. The harmonic oscillator is an ubiquitous form for the potential, finding its use mostly in approximating complex potentials near their local minima.
 
-
-
-
-%\subsection{Roulette-wheel algorithm}
-%The roulette-wheel algorithm, also known as fitness proportionate selection, is a method to select a member $j$ from a population with $N$ members, with a certain probability $p_j$. This is done by dividing the interval $[0,1]$ into $N$ segments of size $p_j$. Then a uniform random number is generated in that same interval. A member is selected by checking in which interval the random number lies.
-
-
-%\subsection{Rosenbluth and Rosenbluth algorithm}
-%In $d$ dimensions, if the distance between each monomer is set to 1, the amount of possible new monomer positions $N_{\theta}$ are positioned on a ($d$-1)-sphere of unit radius, with the last monomer as the centre.
