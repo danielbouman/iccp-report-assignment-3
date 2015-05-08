@@ -1,2 +1,2 @@
-# ICCP PERM polymers project report
-compile main.tex
+# ICCP Quantum Dynamics using Crank Nicolson scheme project report
+Compile main.tex
