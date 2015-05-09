@@ -4,49 +4,86 @@ We solve this partial differential equation numerically by using the Crank-Nicol
 The time derivative on the left hand side of equation~\ref{eq:schrodinger} is approximated with a forward difference divided by the time step $\tau$:
 \begin{gather*}
     \frac{\partial}{\partial t}\Psi 
-    = \frac{\Delta_h[\Psi](t)}{\tau} + \mathcal{O}(\tau)
-    = \frac{\Psi(t + \tau) - \Psi(t)}{\tau} + \mathcal{O}(\tau).
-\end{gather*} Rewriting equation~1 then gives:
+    = \frac{\Delta_\tau[\Psi](t)}{\tau} + \mathcal{O}(\tau)
+    = \frac{\Psi(t + \tau) - \Psi(x,t)}{\tau} + \mathcal{O}(\tau).
+\end{gather*} Equation~1 then becomes:
 \[
-    \Psi(t+\tau)-\Psi(t) 
-    = -i\tau\hat{H}\Psi(t).
-\] By approximating $\Psi(t)$ as $\left(\Psi(t+\tau)+\Psi(t)\right)/2$ this equation can be rewritten as:
+    \Psi(x,t+\tau)-\Psi(x,t) 
+    = -i\tau\hat{H}\Psi(x,t).
+\] Approximating the $\Psi(x,t)$ on the right hand side with $\left(\Psi(x,t+\tau)+\Psi(x,t)\right)/2$, this equation can be rewritten as:
 \begin{equation}\label{eq:cnm_lineq}
-    \left(\mathbb{1}+\frac{i\tau}{2}\hat{H}\right)\Psi(t+\tau) 
-    = \left(\mathbb{1}-\frac{i\tau}{2}\hat{H}\right)\Psi(t).
-\end{equation} This is a system of linear equations of the form $\mathbf{A}\vb{x}=\vb{b}$. The wave function can be evaluated by solving this for $\vb{x}$. In these simulations we solve for $\Psi(t+\tau)$ by using the Biconjugate gradient method \footnote{We use the bicgstab function from the Python module Scipy.}.
+    \left(\mathbb{1}+\frac{i\tau}{2}\hat{H}\right)\Psi(x,t+\tau) 
+    = \left(\mathbb{1}-\frac{i\tau}{2}\hat{H}\right)\Psi(x,t).
+\end{equation} This is a system of linear equations of the form $\mathbf{A}\vb{x}=\vb{b}$. The wave function can be evaluated by solving this for $\vb{x}$. 
 
 When equation \ref{eq:cnm_lineq} is rewritten as:
-\begin{gather*}
-\Psi(t+\tau) 
-    = \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\Psi(t)
-\end{gather*} we note the close correspondence between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}$ is time-independent and up to second order in $\tau$):
+\begin{equation}\label{eq:inverted}
+\Psi(x,t+\tau) 
+    = \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\Psi(x,t)
+\end{equation} we note the close correspondence between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}$ is time-independent and up to second order in $\tau$):
 \begin{gather*}
     e^{-i\tau\hat{H}} 
     = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{6}\hat{H}^3 + \mathcal{O}(\tau^4)\\
     \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} 
     = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{4}\hat{H}^3 + \mathcal{O}(\tau^4).\\
 \end{gather*}
-%  If the Hamiltonian is independent of time, the operator acting on $\Psi(t)$ needs to be calculated only once.
+%  If the Hamiltonian is independent of time, the operator acting on $\Psi(x,t)$ needs to be calculated only once.
 %  Where the term in the denominator implies that the inverse of $\mathbb{1}+\frac{i\tau}{2}\hat{H}$ needs to be calculated everytime step if $\hat{H}$ depends on time.
 When setting $t=0$ and $\tau=t$, this allows us to write:
 \[
-    \Psi(t)
+    \Psi(x,t)
     = e^{-it \hat{H}} \Psi(0).
 \] The inner product of $Psi(t)$ then becomes
 \[
-    \braket{\Psi(t)}{\Psi(t)}
-    = \ev*{\Psi(0)}{e^{it\hat{H}} e^{-it\hat{H}}}
-    = 1,
-\] where the operator is unitary. This implies that the norm is preserved, neglecting finite computational precision.
+    \braket{\Psi(x,t)}{\Psi(x,t)}
+    = \ev*{e^{it\hat{H}} e^{-it\hat{H}}}{\Psi(0)}
+    = 1.
+\] The operator in equation~\ref{eq:inverted} is thus unitary, which implies that the norm is preserved.
 
 % \begin{gather*}
 % \left(\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\right)^{\dagger}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\\
 % = \frac{\mathbb{1}+\frac{i\tau}{2}\hat{H}}{\mathbb{1}-\frac{i\tau}{2}\hat{H}}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = \mathbb{1},
 % \end{gather*}
 % \begin{gather*}
-% \Psi(t+\tau) = e^{-i\tau\hat{H}}\Psi(t)\\
+% \Psi(x,t+\tau) = e^{-i\tau\hat{H}}\Psi(x,t)\\
 % e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
 % \end{gather*}
 
-\section{Hamiltonian operator}
+\section{System of linear equations}
+In one dimension, the momentum operator $-\frac{\partial^2}{\partial x^2}$ is approximated with a central difference divided by spacial step $a$:
+\[
+    \frac{\partial^2}{\partial x^2}
+    \simeq \frac{\delta_a^2[\Psi](x)}{a^2} 
+    = \frac{\Psi(x+a)-2\Psi(x)+\Psi(x-a)}{a^2}.
+\]For $\hat{V}=0$ the Hamiltonian matrix in the linear system of equation~\ref{eq:cnm_lineq} then becomes a tridiagonal matrix:
+\[
+\hat{H} =
+ \begin{pmatrix}
+    2       & -1     & \cdots & 0       \\
+    -1      & 2      & \ddots & \vdots  \\
+    \vdots  & \ddots & \ddots & -1      \\
+    0       & \cdots & -1     & 2
+ \end{pmatrix}.
+ \] The $\Psi(x,t)$ vector lists all the finite elements of the wave function
+ \[
+\Psi(x,t) =
+ \begin{pmatrix}
+    \Psi(x_1,t)   \\
+    \Psi(x_2,t)   \\
+    \vdots      \\
+    \Psi(x_N,t)
+ \end{pmatrix},
+ \] where $N$ is the number of finite elements. To add a potential to the system, the amplitudes of the potential are added to the corresponding diagonal elements of the Hamiltonian matrix. We solve this sparse linear system by using the iterative Biconjugate gradient stabilized method \footnote{We use the bicgstab function from the Python module Scipy.}.
+ 
+In the two dimensional case, the elements of the $\Psi$ are also stored in a vector. This is done ``row by row'', where a row contains all the x-direction elements of one step the y-direction:
+\[
+\Psi(x,t) =
+ \begin{pmatrix}
+    \Psi(x_1,y_1,t)     \\
+    \Psi(x_2,y_1,t)     \\
+    \vdots              \\
+    \Psi(x_1,y_2,t)     \\
+    \vdots              \\
+    \Psi(x_N,t)
+ \end{pmatrix}.
+ \] There is an additional spacial derivative in the $y$-direction. To incorporate this into the linear system, all the  
