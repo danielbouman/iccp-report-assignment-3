@@ -14,37 +14,39 @@ The time derivative on the left hand side of equation~\ref{eq:schrodinger} is ap
 \begin{equation}\label{eq:cnm_lineq}
     \left(\mathbb{1}+\frac{i\tau}{2}\hat{H}\right)\Psi(t+\tau) 
     = \left(\mathbb{1}-\frac{i\tau}{2}\hat{H}\right)\Psi(t).
-\end{equation} This is a system of linear equations of the form $\mathbf{A}\vec{x}=\vec{b}$. The wave function can be evaluated by solving this for $\vec{x}$. In these simulations we solve for $\Psi(t+\tau)$ by using the Biconjugate gradient method \footnote{We use the bicgstab function from the Python module Scipy}.
+\end{equation} This is a system of linear equations of the form $\mathbf{A}\vb{x}=\vb{b}$. The wave function can be evaluated by solving this for $\vb{x}$. In these simulations we solve for $\Psi(t+\tau)$ by using the Biconjugate gradient method \footnote{We use the bicgstab function from the Python module Scipy.}.
 
 When equation \ref{eq:cnm_lineq} is rewritten as:
 \begin{gather*}
 \Psi(t+\tau) 
     = \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\Psi(t)
-\end{gather*} we note the close correspondence (up to second order in $\tau$) between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}(t) = \hat{H}$:
-
+\end{gather*} we note the close correspondence between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}$ is time-independent and up to second order in $\tau$):
+\begin{gather*}
+    e^{-i\tau\hat{H}} 
+    = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{6}\hat{H}^3 + \mathcal{O}(\tau^4)\\
+    \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} 
+    = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{4}\hat{H}^3 + \mathcal{O}(\tau^4).\\
+\end{gather*}
 %  If the Hamiltonian is independent of time, the operator acting on $\Psi(t)$ needs to be calculated only once.
 %  Where the term in the denominator implies that the inverse of $\mathbb{1}+\frac{i\tau}{2}\hat{H}$ needs to be calculated everytime step if $\hat{H}$ depends on time.
+When setting $t=0$ and $\tau=t$, this allows us to write:
+\[
+    \Psi(t)
+    = e^{-it \hat{H}} \Psi(0).
+\] The inner product of $Psi(t)$ then becomes
+\[
+    \braket{\Psi(t)}{\Psi(t)}
+    = \ev*{\Psi(0)}{e^{it\hat{H}} e^{-it\hat{H}}}
+    = 1,
+\] where the operator is unitary. This implies that the norm is preserved, neglecting finite computational precision.
 
-\begin{gather*}
-e^{-i\tau\hat{P}} = 1 - i \tau\hat{P} - \frac{\tau^2}{2}\hat{P}^2 + \frac{i\tau^3}{6}\hat{P}^3 + \mathcal{O}(\tau^4)\\
-\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = 1 - i \tau\hat{P} - \frac{\tau^2}{2}\hat{P}^2 + \frac{i\tau^3}{4}\hat{P}^3 + \mathcal{O}(\tau^4).\\
-\end{gather*}
+% \begin{gather*}
+% \left(\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\right)^{\dagger}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\\
+% = \frac{\mathbb{1}+\frac{i\tau}{2}\hat{H}}{\mathbb{1}-\frac{i\tau}{2}\hat{H}}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = \mathbb{1},
+% \end{gather*}
+% \begin{gather*}
+% \Psi(t+\tau) = e^{-i\tau\hat{H}}\Psi(t)\\
+% e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
+% \end{gather*}
 
-Since
-
-\begin{gather*}
-\left(\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\right)^{\dagger}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\\
-= \frac{\mathbb{1}+\frac{i\tau}{2}\hat{H}}{\mathbb{1}-\frac{i\tau}{2}\hat{H}}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = \mathbb{1},
-\end{gather*}
-
-the operator is unitary. This implies that the norm is preserved, neglecting finite computational precision.
-
-
-\begin{gather*}
-\Psi(t+\tau) = e^{-i\tau\hat{H}}\Psi(t)\\
-e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
-\end{gather*}
-
-We verified the simulation results by comparing them with analytical solutions for specific potentials. Well-known examples of potentials with analytical solutions are the infinite square well, barrier potential and harmonic oscillator potential.
-The infinite square well finds it physical realisation in studying the behaviour of electrons confined in a metal. The barrier potential can be used as a model for understanding quantum tunneling effects. The harmonic oscillator is an ubiquitous form for the potential, finding its use mostly in approximating complex potentials near their local minima.
-In two dimensions a double slit potential is used to simulate the purely quantum-mechanical effect of interference.
+\section{Hamiltonian operator}
