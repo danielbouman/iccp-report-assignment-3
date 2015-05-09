@@ -1,22 +1,13 @@
 \section{Introduction}
-The (non-relativistic) Schr\"{o}dinger equation for the wavefunction $\Psi(x,t)$ of a particle in a time-dependent scalar potential $V(x,t)$ reads 
-
+The (non-relativistic) Schr\"{o}dinger equation for the wave-function $\Psi(x,t)$ of a particle in a time-dependent scalar potential $V(x,t)$ reads 
 \[
 i\hbar \frac{\partial}{\partial t}\Psi(x,t) = \left[-\frac{\hbar^2}{2m}\nabla^2+\hat{V(x,t)}\right]\Psi(x,t),
 \]
-
-where $\hbar$ is the quantum of action divided by $2\pi$, $m$ the mass of the particle and $\Psi(x,t)$ the wavefunction.
+where $\hbar$ is the quantum of action divided by $2\pi$, $m$ the mass of the particle and $\Psi(x,t)$ the wave function.
 Rescaling the units such that $\hbar = 2m = 1$ gives
-
-\begin{gather*}
-i \frac{\partial}{\partial t}\Psi = \hat{H}(x,t)\Psi\\
-\hat{H} = -\nabla^2+\hat{V},
-\end{gather*}
-
-where $\hat{H}$ is called the Hamiltonian of the system.
-
-Numerical results can be verified by comparing them with analytical solutions for specific potentials. Well-known examples of potentials with analytical solutions are the infinite square well, barrier potential and harmonic oscillator potential.
-
-The infinite square well finds it physical realisation in studying the behaviour of electrons confined in a metal. The barrier potential can be used as a model for understanding quantum tunneling effects. The harmonic oscillator is an ubiquitous form for the potential, finding its use mostly in approximating complex potentials near their local minima.
-
-In two dimensions a double slit potential is used to simulate the purely quantum-mechanical effect of interference.
+\begin{equation}\label{eq:schrodinger}
+i \frac{\partial}{\partial t}\Psi = \hat{H}(x,t)\Psi,
+\end{equation}where the Hamiltonian $\hat{H}$ is given by
+\[
+\hat{H} = -\nabla^2+\hat{V}.
+\] By solving equation \ref{eq:schrodinger} the time evolution of a system can be determined.
