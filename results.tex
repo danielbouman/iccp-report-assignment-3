@@ -65,7 +65,7 @@ The simulated one-dimensional barrier potential has a value $V_0>0$ in the range
 \end{Figure} In figure \ref{fig:transmission} it can be seen that the particle tunnels partially through the barrier, even for high values of $V_0$. For low values of $V_0$ the transmission will be close to unity, as is expected. The small dip seen around $1/V_0=0.4$ is due to the wave packet resonating inside the potential barrier. This resonance effect is strongly dependent on the width of both the wave packet and the barrier.
 
 \subsection*{Quantum harmonic oscillator potential}
-The harmonic oscillator potential is defined as $V(r) = \frac{1}{2}m\omega^2r^2$, with $r$ the distance from some point in space. It is known from the classical harmonic oscillator that a particle would oscillate with a certain frequency in space. This behaviour can also be seen in the quantum analog of the harmonic oscillator. The below simulation was performed by given a Gaussian wave packet with an offset a momentum in the positive x-direction in a harmonic potential with $\omega = $\todo[inline]{waarde toevoegen voor omega en fatsoenlijk engels maken van deze tekst, goede verwijzing naar afbeeldingen niet 'below'}.
+The harmonic oscillator potential is defined as $V(r) = \frac{1}{2}m\omega^2r^2$, with $r$ the distance from some point in space. It is known from the classical harmonic oscillator that a particle would oscillate with a certain frequency in space. This behaviour can also be seen in the quantum analog of the harmonic oscillator. A simulation of this potential was performed (time evolution is shown in figure \ref{fig:harmonicpotential}) by given a Gaussian wave packet with an offset a momentum in the positive x-direction in a harmonic potential with $\omega = $\todo[inline]{waarde toevoegen voor omega toevoegn en fatsoenlijk engels maken van deze alinea}.
 \def\arraystretch{0.6}%
 \setlength\tabcolsep{0.5mm}
 \begin{figure}[H]
@@ -78,12 +78,11 @@ The harmonic oscillator potential is defined as $V(r) = \frac{1}{2}m\omega^2r^2$
   \includegraphics[scale = 0.29]{QHO13.png} &   \includegraphics[scale = 0.29]{QHO14.png}   &   \includegraphics[scale = 0.29]{QHO15.png} \\
 \end{tabular}
 \caption{Time-evolution of a moving Gaussian wave packet in a harmonic potential. From left to right.}
+\label{fig:harmonicpotential}
 \end{figure} Note that the spread in the wavefunction increases the closer the expectation value gets to the centre of the potential. This corresponds to the behaviour of the classical harmonic oscillator where the momentum is greatest as the particle moves through the centre, while the momentum is zero as it reaches its farthest point from the centre.
 
 \subsection*{Double slit potential}
-A Gaussian wave packet with $\sigma_x = \sigma y = 4.5$ is sent through a potential barrier with height $V_0 = 100$, with two regions of width 3 in the barrier where the potential is set to zero. The wavefunction will partially spread from these two slits and create an interference pattern on the other side\footnote{Animations of these simulations can be viewed on:}\todo[inline]{link toevoegen}:
-
-
+A Gaussian wave packet with $\sigma_x = \sigma y = 4.5$ is sent through a potential barrier with height $V_0 = 100$, with two regions of width 3 in the barrier where the potential is set to zero. The wavefunction will partially spread from these two slits and create an interference pattern on the other side\footnote{Movies of these simulations can be viewed on:}\todo[inline]{link toevoegen}. Figure \ref{fig:doubleslit} shows the time evolution of this system.
 %
 %\begin{figure}
 %  \centering
@@ -113,6 +112,7 @@ A Gaussian wave packet with $\sigma_x = \sigma y = 4.5$ is sent through a potent
   \includegraphics[scale = 0.29]{slit10.png} &   \includegraphics[scale = 0.29]{slit11.png} &   \includegraphics[scale = 0.29]{slit12.png} \\
 \end{tabular}
 \caption{Time-evolution of a Gaussian wave packet through a double slit. From left to right.}
+\label{fig:doubleslit}
 \end{figure} Figure \ref{fig:crosssection} shows a cross-section along the x-axis at $y = 26.5$, $t = 60$ \todo[inline]{Dit zegt niks zonder assen en tijdsindicatie bij de figuren}, $\tau = 0.1$ of the probability distribution is seen in the figure below. The probability distribution is again normalized to find the conditional distribution:
 
 \begin{Figure}
