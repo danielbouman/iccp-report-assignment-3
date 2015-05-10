@@ -1,4 +1,4 @@
-\section{Crank-Nicolson method}
+\section*{Crank-Nicolson method}
 We solve this partial differential equation numerically by using the Crank-Nicolson method (CNM). CNM is a finite difference method that is implicit in time and numerically stable \cite{cnm}. 
 
 The time derivative on the left hand side of equation~\ref{eq:schrodinger} is approximated with a forward difference divided by the time step $\tau$:
@@ -49,7 +49,7 @@ When setting $t=0$ and $\tau=t$, this allows us to write:
 % e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
 % \end{gather*}
 
-\section{System of linear equations}
+\section*{System of linear equations}
 In one dimension, the momentum operator $-\frac{\partial^2}{\partial x^2}$ is approximated with a central difference divided by spacial step $a$:
 \[
     \frac{\partial^2}{\partial x^2}
