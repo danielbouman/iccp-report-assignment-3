@@ -59,7 +59,7 @@ The simulated one-dimensional barrier potential has a value $V_0>0$ in the range
 \subsection*{Potential barrier in 1D}
 \begin{Figure}
     \centering
-    \includegraphics[width=\linewidth]{transmission_1d_pot_barrier.pdf}
+    \includegraphics[width=\linewidth]{transmission_1d_pot_barrier2.pdf}
     \captionof{figure}{Transmission through a potential barrier as a function of the barrier height.}
     \label{fig:transmission}
 \end{Figure} In figure \ref{fig:transmission} it can be seen that the particle tunnels partially through the barrier, even for high values of $V_0$. For low values of $V_0$ the transmission will be close to unity, as is expected. The small dip seen around $1/V_0=0.4$ is due to the wave packet resonating inside the potential barrier. This resonance effect is strongly dependent on the width of both the wave packet and the barrier.
@@ -82,7 +82,7 @@ The harmonic oscillator potential is defined as $V(r) = \frac{1}{2}m\omega^2r^2$
 \end{figure} Note that the spread in the wavefunction increases the closer the expectation value gets to the centre of the potential. This corresponds to the behaviour of the classical harmonic oscillator where the momentum is greatest as the particle moves through the centre, while the momentum is zero as it reaches its farthest point from the centre.
 
 \subsection*{Double slit potential}
-A Gaussian wave packet with $\sigma_x = \sigma_y = 4.5$ is sent through a potential barrier with height $V_0 = 100$, with two regions of width 3 in the barrier where the potential is set to zero. The wavefunction will partially spread from these two slits and create an interference pattern on the other side. Twelve snapshots spread out evenly over 80 time steps with $\tau = 0.1$ and $a=0.5$ are shown in figure \ref{fig:doubleslit}. The simulation takes place on a domain of 40 by 40.\footnote{Animations of these simulations can be viewed on:\url{https://github.com/dbouman1/iccp-assignment-3/tree/2D/videos}}:
+A Gaussian wave packet with $\sigma_x = \sigma_y = 4.5$ is sent through a potential barrier with height $V_0 = 100$, with two regions of width 3 in the barrier where the potential is set to zero. The wavefunction will partially spread from these two slits and create an interference pattern on the other side. Twelve snapshots spread out evenly over 80 time steps with $\tau = 0.1$ and $a=0.5$ are shown in figure \ref{fig:doubleslit}. The simulation takes place on a domain of 40 by 40.\footnote{Animations of these simulations can be viewed on: \text{ }\url{https://github.com/dbouman1/iccp-assignment-3/tree/2D/videos}}:
 
 
 %
@@ -115,11 +115,11 @@ A Gaussian wave packet with $\sigma_x = \sigma_y = 4.5$ is sent through a potent
 \end{tabular}
 \caption{Time-evolution of a Gaussian wave packet through a double slit. From left to right.}
 \label{fig:doubleslit}
-\end{figure} Figure \ref{fig:crosssection} shows a cross-section along the x-axis at $y = 26.5$, $t = 60$, $\tau = 0.1$ of the probability distribution is seen in the figure below. The probability distribution is again normalized to find the conditional distribution:
+\end{figure} Figure \ref{fig:crosssection} shows a cross-section along the x-axis at $y = 26.5$, $t = 60$, $\tau = 0.1$ of the probability distribution is seen figure \ref{fig:doubleslit}. The probability distribution is again normalized to find the conditional distribution:
 
 \begin{Figure}
     \centerfloat
-    \includegraphics[trim = 3.5mm 0mm 3.5mm 0mm, clip,scale = 0.435]{crosssectiondoubleslit.pdf}
+    \includegraphics[trim = 3.5mm 0mm 3.5mm 0mm, clip,scale = 0.395]{crosssectiondoubleslit.pdf}
     \captionof{figure}{Conditional probability distribution for $y = 26.5$ at $t = 60$.}
     \label{fig:crosssection}
 \end{Figure}
