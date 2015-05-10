@@ -1,50 +1,98 @@
-\section{Crank-Nicolson method}
+\section*{Crank-Nicolson method}
 We solve this partial differential equation numerically by using the Crank-Nicolson method (CNM). CNM is a finite difference method that is implicit in time and numerically stable \cite{cnm}. 
 
 The time derivative on the left hand side of equation~\ref{eq:schrodinger} is approximated with a forward difference divided by the time step $\tau$:
 \begin{gather*}
     \frac{\partial}{\partial t}\Psi 
-    = \frac{\Delta_h[\Psi](t)}{\tau} + \mathcal{O}(\tau)
+    = \frac{\Delta_\tau[\Psi](t)}{\tau} + \mathcal{O}(\tau)
     = \frac{\Psi(t + \tau) - \Psi(t)}{\tau} + \mathcal{O}(\tau).
-\end{gather*} Rewriting equation~1 then gives:
+\end{gather*} Equation~1 then becomes:
 \[
     \Psi(t+\tau)-\Psi(t) 
     = -i\tau\hat{H}\Psi(t).
-\] By approximating $\Psi(t)$ as $\left(\Psi(t+\tau)+\Psi(t)\right)/2$ this equation can be rewritten as:
+\] Approximating the $\Psi(t)$ on the right hand side with $\left(\Psi(t+\tau)+\Psi(t)\right)/2$, this equation can be rewritten as:
 \begin{equation}\label{eq:cnm_lineq}
     \left(\mathbb{1}+\frac{i\tau}{2}\hat{H}\right)\Psi(t+\tau) 
     = \left(\mathbb{1}-\frac{i\tau}{2}\hat{H}\right)\Psi(t).
-\end{equation} This is a system of linear equations of the form $\mathbf{A}\vec{x}=\vec{b}$. The wave function can be evaluated by solving this for $\vec{x}$. In these simulations we solve for $\Psi(t+\tau)$ by using the Biconjugate gradient method \footnote{We use the bicgstab function from the Python module Scipy}.
+\end{equation} This is a system of linear equations of the form $\mathbf{A}\vb{x}=\vb{b}$. The wave function can be evaluated by solving this for $\vb{x}$. 
 
 When equation \ref{eq:cnm_lineq} is rewritten as:
-\begin{gather*}
+\begin{equation}\label{eq:inverted}
 \Psi(t+\tau) 
     = \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\Psi(t)
-\end{gather*} we note the close correspondence (up to second order in $\tau$) between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}(t) = \hat{H}$):
-
-%  If the Hamiltonian is independent of time, the operator acting on $\Psi(t)$ needs to be calculated only once.
+\end{equation} we note the close correspondence between the series expansion of this operator and the series expansion of the time evolution operator (when $\hat{H}$ is time-independent and up to second order in $\tau$):
+\begin{gather*}
+    e^{-i\tau\hat{H}} 
+    = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{6}\hat{H}^3 + \mathcal{O}(\tau^4)\\
+    \frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} 
+    = 1 - i \tau\hat{H} - \frac{\tau^2}{2}\hat{H}^2 + \frac{i\tau^3}{4}\hat{H}^3 + \mathcal{O}(\tau^4).\\
+\end{gather*}
+%  If the Hamiltonian is independent of time, the operator acting on $\Psi(x,t)$ needs to be calculated only once.
 %  Where the term in the denominator implies that the inverse of $\mathbb{1}+\frac{i\tau}{2}\hat{H}$ needs to be calculated everytime step if $\hat{H}$ depends on time.
+When setting $t=0$ and $\tau=t$, this allows us to write:
+\[
+    \Psi(t)
+    = e^{-it \hat{H}} \Psi(0).
+\] The inner product of $\Psi(t)$ then becomes
+\[
+    \braket{\Psi(t)}{\Psi(t)}
+    = \ev*{e^{it\hat{H}} e^{-it\hat{H}}}{\Psi(0)}
+    = 1.
+\] The operator in equation~\ref{eq:inverted} is unitary, which implies that the norm is preserved.
 
-\begin{gather*}
-e^{-i\tau\hat{P}} = 1 - i \tau\hat{P} - \frac{\tau^2}{2}\hat{P}^2 + \frac{i\tau^3}{6}\hat{P}^3 + \mathcal{O}(\tau^4)\\
-\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = 1 - i \tau\hat{P} - \frac{\tau^2}{2}\hat{P}^2 + \frac{i\tau^3}{4}\hat{P}^3 + \mathcal{O}(\tau^4).\\
-\end{gather*}
+% \begin{gather*}
+% \left(\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\right)^{\dagger}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\\
+% = \frac{\mathbb{1}+\frac{i\tau}{2}\hat{H}}{\mathbb{1}-\frac{i\tau}{2}\hat{H}}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = \mathbb{1},
+% \end{gather*}
+% \begin{gather*}
+% \Psi(x,t+\tau) = e^{-i\tau\hat{H}}\Psi(x,t)\\
+% e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
+% \end{gather*}
 
-Since
-
-\begin{gather*}
-\left(\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\right)^{\dagger}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}}\\
-= \frac{\mathbb{1}+\frac{i\tau}{2}\hat{H}}{\mathbb{1}-\frac{i\tau}{2}\hat{H}}\frac{\mathbb{1}-\frac{i\tau}{2}\hat{H}}{\mathbb{1}+\frac{i\tau}{2}\hat{H}} = \mathbb{1},
-\end{gather*}
-
-the operator is unitary. This implies that the norm is preserved, neglecting finite computational precision.
-
-
-\begin{gather*}
-\Psi(t+\tau) = e^{-i\tau\hat{H}}\Psi(t)\\
-e^{-i\tau\hat{H}} = \mathbb{1}-\frac{i}{2}\tau\hat{H}+\mathcal{O}(t^2)
-\end{gather*}
-
-We verified the simulation results by comparing them with analytical solutions for specific potentials. Well-known examples of potentials with analytical solutions are the infinite square well, barrier potential and harmonic oscillator potential.
-The infinite square well finds it physical realisation in studying the behaviour of electrons confined in a metal. The barrier potential can be used as a model for understanding quantum tunneling effects. The harmonic oscillator is an ubiquitous form for the potential, finding its use mostly in approximating complex potentials near their local minima.
-In two dimensions a double slit potential is used to simulate the purely quantum-mechanical effect of interference.
+\section*{System of linear equations}
+In one dimension, the momentum operator $-\frac{\partial^2}{\partial x^2}$ is approximated with a central difference divided by spatial step $a$:
+\[
+    \frac{\partial^2}{\partial x^2}
+    \simeq \frac{\delta_a^2[\Psi](x)}{a^2} 
+    = \frac{\Psi(x+a)-2\Psi(x)+\Psi(x-a)}{a^2}.
+\]For $\hat{V}=0$, the Hamiltonian matrix in the linear system shown in equation~\ref{eq:cnm_lineq} then becomes a $N$ by $N$ tridiagonal matrix:
+\[
+\hat{H} =
+ \begin{pmatrix}
+    2       & -1     & \cdots & 0       \\
+    -1      & 2      & \ddots & \vdots  \\
+    \vdots  & \ddots & \ddots & -1      \\
+    0       & \cdots & -1     & 2
+ \end{pmatrix},
+ \] where $N$ is the number of finite elements in one dimension. The $\Psi(x,t)$ vector lists all the finite elements of the wave function
+ \[
+\Psi(x,t) =
+ \begin{pmatrix}
+    \Psi(x_1,t)   \\
+    \Psi(x_2,t)   \\
+    \vdots      \\
+    \Psi(x_N,t)
+ \end{pmatrix}.
+ \] To add a potential to the system, the amplitudes of the potential are added to the corresponding diagonal elements of the Hamiltonian matrix. We solve this sparse linear system by using the iterative Biconjugate gradient stabilized method \footnote{We use the bicgstab function from the Python module Scipy.}.
+ 
+In the two dimensional case, the elements of the $\Psi$ are also stored in a vector. This is done ``row by row'', where a row contains all the x-direction elements of one step the y-direction:
+\[
+\Psi(x,y,t) =
+ \begin{pmatrix}
+    \Psi(x_1,y_1,t)     \\
+    \Psi(x_2,y_1,t)     \\
+    \vdots              \\
+    \Psi(x_1,y_2,t)     \\
+    \vdots              \\
+    \Psi(x_N,y_N,t)
+ \end{pmatrix}.
+ \] In this vector not all neighbouring vector elements are neighbouring elements in the domain. For example, the elements  $x_N,y_1$ and $x_1,y_2$ are neighbours in the vector but not in the spatial domain. To take this into account, the Kronecker product between the $N^2$ by $N^2$ identity matrix and the old Hamiltonian is determined. For a $N=2$ domain with $V=0$ this becomes:
+ \[
+\hat{H} = \mathbb{1} \otimes \hat{H}_\text{old} =
+ \begin{pmatrix}
+    2   & -1    & 0     & 0     \\
+    -1  & 2     & 0     & 0     \\
+    0   & 0     & 2     & -1    \\
+    0   & 0     & -1    & 2
+ \end{pmatrix},
+ \] There is also an additional spatial derivative in the $y$-direction. To incorporate this into the linear system, $2$ is added to the diagonal elements of $\hat{H}$ and $-1$ is added to the $N$\textsuperscript{th} lower and upper diagonals. Note that using this method we are limited to square domains.
