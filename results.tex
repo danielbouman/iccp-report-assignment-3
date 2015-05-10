@@ -1,7 +1,7 @@
 \section*{Results and discussion}
 We verified the simulation results by comparing them with physical or mathematical results known for certain potentials. The potentials analyzed are the infinite square well, barrier potential and harmonic oscillator potential.
 The infinite square well finds it physical realisation in studying the behaviour of electrons confined in a metal. The barrier potential can be used as a model for understanding quantum tunneling effects. The harmonic oscillator is an ubiquitous form for the potential, finding its use mostly in approximating complex potentials near their local minima.
-In two dimensions a double slit potential is used to simulate the purely quantum-mechanical effect of interference.
+In two dimensions a double slit potential is used to simulate the quantum-mechanical effect of interference.
 
 
 \subsection*{Stability of the infinite square well eigenstates}
@@ -31,22 +31,19 @@ In figures \ref{fig:distancea10}, \ref{fig:distancea05}, \ref{fig:distancea02} t
 \end{Figure} The deviations are clearly dependent on the value chosen for $a$, but the running time is expected to be around $\mathcal{O}(a^2)$, so that a proper value of $a$ should be chosen depending on the desired accuracy and running time of the simulation. The deviations occur primarily due to the fact that the analytic eigenstates of the Hamiltonian are not eigenstates of the discretized Hamiltonian\footnote{When the operator $(\mathbb{1}-\frac{i\tau}{2}\hat{H})/(\mathbb{1}+\frac{i\tau}{2}\hat{H})$ is explicitly calculated, it is possible to find approximate or exact eigenstates of the discretized Hamiltonian.}. The oscillations seen independent of $a$ indicate that the analytic eigenstate and the eigenstate of the discretized Hamiltonian are relatively close with respect to the natural metric.
 
 \subsection*{Unitarity of the simulation}
-Though the operator used in the CNM method is in theory unitary, finite precision in the storage of variables will cause the probability to be not conserved. For the following simulations the eigenstate from the previous section is simulated for 500 time steps with $\tau = 1$ and $a = 1.0, 0.5$ and $0.2$ respectively:
-
+Though the operator used in the CNM method is in theory unitary, finite precision in the storage of variables will cause the probability to be not conserved. For the following simulations the eigenstate from the previous section is simulated for 500 time steps with $\tau = 1$ and $a = 1.0, 0.5$ and $0.2$ respectively (figure \ref{fig:distancea10}, \ref{fig:distancea05} and \ref{fig:distancea02}).
 \begin{Figure}
     \centering
     \includegraphics[width=\linewidth]{norma10.pdf}
     \captionof{figure}{Deviation from the norm for each timestep for $a = 1.0$}
     \label{fig:distancea10}
 \end{Figure}
-
 \begin{Figure}
     \centering
     \includegraphics[width=\linewidth]{norma05.pdf}
     \captionof{figure}{Deviation from the norm for each timestep for $a = 0.5$}
     \label{fig:distancea05}
 \end{Figure}
-
 \begin{Figure}
     \centering
     \includegraphics[width=\linewidth]{norma02.pdf}
@@ -77,13 +74,12 @@ The harmonic oscillator potential is defined as $V(r) = \frac{1}{2}m\omega^2r^2$
   \includegraphics[scale = 0.29]{QHO10.png} &   \includegraphics[scale = 0.29]{QHO11.png}   &   \includegraphics[scale = 0.29]{QHO12.png} \\
   \includegraphics[scale = 0.29]{QHO13.png} &   \includegraphics[scale = 0.29]{QHO14.png}   &   \includegraphics[scale = 0.29]{QHO15.png} \\
 \end{tabular}
-\caption{Time-evolution of a moving Gaussian wave packet in a harmonic potential. From left to right.}
+\caption{Time-evolution of a moving Gaussian wave packet in a harmonic potential for 150 time steps. The snapshots are ordered from left to right and are equally distributed over time.}
 \label{fig:QHO}
 \end{figure} Note that the spread in the wavefunction increases the closer the expectation value gets to the centre of the potential. This corresponds to the behaviour of the classical harmonic oscillator where the momentum is greatest as the particle moves through the centre, while the momentum is zero as it reaches its farthest point from the centre.
 
 \subsection*{Double slit potential}
 A Gaussian wave packet with $\sigma_x = \sigma_y = 4.5$ is sent through a potential barrier with height $V_0 = 100$, with two regions of width 3 in the barrier where the potential is set to zero. The wavefunction will partially spread from these two slits and create an interference pattern on the other side. Twelve snapshots spread out evenly over 80 time steps with $\tau = 0.1$ and $a=0.5$ are shown in figure \ref{fig:doubleslit}. The simulation takes place on a domain of 40 by 40.\footnote{Animations of these simulations can be viewed on: \text{ }\url{https://github.com/dbouman1/iccp-assignment-3/tree/2D/videos}}:
-
 
 %
 %\begin{figure}
@@ -113,8 +109,9 @@ A Gaussian wave packet with $\sigma_x = \sigma_y = 4.5$ is sent through a potent
   \includegraphics[scale = 0.29]{slit7.png} &   \includegraphics[scale = 0.29]{slit8.png} &   \includegraphics[scale = 0.29]{slit9.png} \\
   \includegraphics[scale = 0.29]{slit10.png} &   \includegraphics[scale = 0.29]{slit11.png} &   \includegraphics[scale = 0.29]{slit12.png} \\
 \end{tabular}
-\caption{Time-evolution of a Gaussian wave packet through a double slit. From left to right.}
+\caption{Time-evolution of a Gaussian wave packet through a double slit for 80 time steps. The snapshots are ordered from left to right and are equally distributed over time.}
 \label{fig:doubleslit}
+
 \end{figure} Figure \ref{fig:crosssection} shows a cross-section along the x-axis at $y = 26.5$, $t = 60$, $\tau = 0.1$ of the probability distribution is seen figure \ref{fig:doubleslit}. The probability distribution is again normalized to find the conditional distribution:
 
 \begin{Figure}
